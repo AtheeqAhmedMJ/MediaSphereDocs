@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Media Sphere Docs</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="top-bar">
+    <div class="app-title">Media Sphere Docs</div>
+    <div class="menu">
+      <button id="newDoc" title="New Document">New</button>
+      <button id="openFile" title="Open File">Open</button>
+      <button id="saveFile" title="Save">Save</button>
+      <button id="saveAsFile" title="Save As">Save As</button>
+      <button id="exportPDF" title="Export to PDF">Export PDF</button>
+      <button id="printDoc" title="Print">Print</button>
+      <button id="themeToggle" title="Toggle Theme">🌓</button>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="toolbar-section">
+      <select id="fontName">
+        <option value="Arial">Arial</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Courier New">Courier New</option>
+        <option value="Times New Roman">Times New Roman</option>
+        <option value="Verdana">Verdana</option>
+        <option value="Trebuchet MS">Trebuchet MS</option>
+        <option value="Lucida Console">Lucida Console</option>
+        <option value="Comic Sans MS">Comic Sans MS</option>
+      </select>
+
+      <select id="fontSize">
+        <option value="1">8pt</option>
+        <option value="2">10pt</option>
+        <option value="3" selected>12pt</option>
+        <option value="4">14pt</option>
+        <option value="5">18pt</option>
+        <option value="6">24pt</option>
+        <option value="7">36pt</option>
+      </select>
+    </div>
+
+    <div class="toolbar-section">
+      <button id="boldBtn" title="Bold"><b>B</b></button>
+      <button id="italicBtn" title="Italic"><i>I</i></button>
+      <button id="underlineBtn" title="Underline"><u>U</u></button>
+      <button id="strikeBtn" title="Strikethrough">S</button>
+    </div>
+
+    <div class="toolbar-section">
+      <button id="alignLeftBtn" title="Align Left">⟨⟨</button>
+      <button id="alignCenterBtn" title="Align Center">≡</button>
+      <button id="alignRightBtn" title="Align Right">⟩⟩</button>
+      <button id="alignJustifyBtn" title="Justify">≣</button>
+    </div>
+
+    <div class="toolbar-section">
+      <button id="unorderedListBtn" title="Bullet List">•</button>
+      <button id="orderedListBtn" title="Numbered List">1.</button>
+      <button id="outdentBtn" title="Decrease Indent">←</button>
+      <button id="indentBtn" title="Increase Indent">→</button>
+    </div>
+
+    <div class="toolbar-section">
+      <button id="tableBtn" title="Insert Table" data-panel-trigger="tablePanel">⊞</button>
+      <button id="imageBtn" title="Insert Image">🖼️</button>
+      <button id="linkBtn" title="Insert Link" data-panel-trigger="linkPanel">🔗</button>
+      <button id="hrBtn" title="Insert Horizontal Line">—</button>
+    </div>
+
+    <div class="toolbar-section">
+      <div class="color-picker">
+        <span>Text:</span>
+        <input type="color" id="textColor" title="Text Color" value="#000000" />
+      </div>
+      <div class="color-picker">
+        <span>Highlight:</span>
+        <input type="color" id="bgColor" title="Highlight Color" value="#ffff00" />
+      </div>
+    </div>
+  </div>
+
+  <div class="extended-toolbar">
+    <div class="toolbar-section">
+      <button id="findReplaceBtn" title="Find & Replace" data-panel-trigger="findReplacePanel">🔍</button>
+      <button id="specialCharBtn" title="Special Characters" data-panel-trigger="specialCharPanel">Ω</button>
+      <button id="spellCheckBtn" title="Spell Check">✓</button>
+      <button id="wordCountBtn" title="Word Count" data-panel-trigger="wordCountPanel">123</button>
+    </div>
+    
+    <div class="toolbar-section">
+      <label for="lineSpacing">Line spacing:</label>
+      <select id="lineSpacing">
+        <option value="1">Single</option>
+        <option value="1.15">1.15</option>
+        <option value="1.5">1.5</option>
+        <option value="2">Double</option>
+      </select>
+    </div>
+
+    <div class="toolbar-section">
+      <button id="toggleHeader" title="Toggle Header">Header</button>
+      <button id="toggleFooter" title="Toggle Footer">Footer</button>
+      <button id="addCommentBtn" title="Add Comment">💬</button>
+      <button id="readingModeBtn" title="Reading Mode">📖</button>
+      <button id="addPageBtn" title="Add Page">📃+</button>
+    </div>
+  </div>
+
+  <div id="findReplacePanel" class="panel" style="display: none;">
+    <div class="panel-content">
+      <h3>Find & Replace</h3>
+      <div class="input-group">
+        <label>Find:</label>
+        <input type="text" id="findText" />
+        <button id="findNextBtn">Find Next</button>
+      </div>
+      <div class="input-group">
+        <label>Replace with:</label>
+        <input type="text" id="replaceText" />
+        <button id="replaceBtn">Replace</button>
+        <button id="replaceAllBtn">Replace All</button>
+      </div>
+      <div class="options">
+        <label><input type="checkbox" id="matchCase" /> Match case</label>
+        <label><input type="checkbox" id="wholeWord" /> Whole words only</label>
+      </div>
+      <button id="closeFindBtn" class="close-btn">Close</button>
+    </div>
+  </div>
+
+  <div id="specialCharPanel" class="panel" style="display: none;">
+    <div class="panel-content">
+      <h3>Special Characters</h3>
+      <div class="special-chars-grid">
+        </div>
+      <button id="closeSpecialCharBtn" class="close-btn">Close</button>
+    </div>
+  </div>
+
+  <div id="wordCountPanel" class="panel" style="display: none;">
+    <div class="panel-content">
+      <h3>Document Statistics</h3>
+      <p>Words: <span id="wordCount">0</span></p>
+      <p>Characters (no spaces): <span id="charCountNoSpace">0</span></p>
+      <p>Characters (with spaces): <span id="charCountWithSpace">0</span></p>
+      <p>Paragraphs: <span id="paragraphCount">0</span></p>
+      <button id="closeWordCountBtn" class="close-btn">Close</button>
+    </div>
+  </div>
+
+  <div id="tablePanel" class="panel" style="display: none;">
+    <div class="panel-content">
+      <h3>Insert Table</h3>
+      <div class="input-group">
+        <label>Rows:</label>
+        <input type="number" id="tableRows" min="1" max="20" value="3" />
+      </div>
+      <div class="input-group">
+        <label>Columns:</label>
+        <input type="number" id="tableCols" min="1" max="10" value="3" />
+      </div>
+      <button id="createTableBtn">Insert</button>
+      <button id="closeTableBtn" class="close-btn">Cancel</button>
+    </div>
+  </div>
+
+  <div id="linkPanel" class="panel" style="display: none;">
+    <div class="panel-content">
+      <h3>Insert Link</h3>
+      <div class="input-group">
+        <label>Text to display:</label>
+        <input type="text" id="linkText" />
+      </div>
+      <div class="input-group">
+        <label>URL:</label>
+        <input type="text" id="linkUrl" placeholder="https://" />
+      </div>
+      <button id="createLinkBtn">Insert</button>
+      <button id="closeLinkBtn" class="close-btn">Cancel</button>
+    </div>
+  </div>
+
+  <div class="document-container">
+    <div id="page-container">
+      <div class="page">
+        <div class="header" contenteditable="true" data-placeholder="Header..."></div>
+        <div class="content-area">
+          <div class="editor" contenteditable="true" spellcheck="true" data-placeholder="Start typing here..."></div>
+        </div>
+        <div class="footer" contenteditable="true" data-placeholder="Footer..."></div>
+        <div class="page-number">1</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <div id="statusDocInfo">Untitled Document</div>
+    <div id="statusWordCount">Words: 0</div>
+    <div id="statusZoom">
+      <label for="zoom">Zoom:</label>
+      <select id="zoom">
+        <option value="50">50%</option>
+        <option value="75">75%</option>
+        <option value="100" selected>100%</option>
+        <option value="125">125%</option>
+        <option value="150">150%</option>
+        <option value="200">200%</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">
+    <span id="toastMessage"></span>
+  </div>
+
+  <div id="contextMenu" class="context-menu" style="display: none;">
+    <ul>
+      <li id="contextCut">Cut</li>
+      <li id="contextCopy">Copy</li>
+      <li id="contextPaste">Paste</li>
+      <li id="contextSelectAll">Select All</li>
+      <li class="divider"></li>
+      <li id="contextAddComment">Add Comment</li>
+    </ul>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

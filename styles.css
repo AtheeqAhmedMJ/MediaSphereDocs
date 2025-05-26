@@ -1,0 +1,609 @@
+/* Basic Reset & Body Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-y: scroll; /* Allow scrolling for document content */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* Theme Variables (Light Mode Default) */
+:root {
+  --background-color: #f0f0f0;
+  --text-color: #333;
+  --toolbar-bg: #e6e6e6;
+  --toolbar-border: #ccc;
+  --button-bg: #f0f0f0;
+  --button-hover-bg: #e0e0e0;
+  --button-active-bg: #c0c0c0;
+  --panel-bg: #ffffff;
+  --panel-border: #ccc;
+  --page-bg: #ffffff;
+  --page-shadow: rgba(0, 0, 0, 0.1);
+  --status-bar-bg: #ddd;
+  --toast-bg: rgba(51, 51, 51, 0.9);
+  --toast-text: #fff;
+  --context-menu-bg: #ffffff;
+  --context-menu-border: #ddd;
+  --context-menu-hover-bg: #f0f0f0;
+  --placeholder-color: #aaa;
+}
+
+/* Dark Mode Variables */
+html[data-theme='dark'] {
+  --background-color: #2c2c2c;
+  --text-color: #f0f0f0;
+  --toolbar-bg: #3c3c3c;
+  --toolbar-border: #555;
+  --button-bg: #4a4a4a;
+  --button-hover-bg: #5a5a5a;
+  --button-active-bg: #6a6a6a;
+  --panel-bg: #3a3a3a;
+  --panel-border: #555;
+  --page-bg: #1e1e1e;
+  --page-shadow: rgba(0, 0, 0, 0.5);
+  --status-bar-bg: #333;
+  --toast-bg: rgba(200, 200, 200, 0.9);
+  --toast-text: #333;
+  --context-menu-bg: #3a3a3a;
+  --context-menu-border: #555;
+  --context-menu-hover-bg: #4a4a4a;
+  --placeholder-color: #888;
+}
+
+/* App Title and Menu Bar */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: var(--toolbar-bg);
+  border-bottom: 1px solid var(--toolbar-border);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  z-index: 100;
+}
+
+.app-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.menu button {
+  background-color: var(--button-bg);
+  color: var(--text-color);
+  border: 1px solid var(--toolbar-border);
+  padding: 8px 15px;
+  margin-left: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.menu button:hover {
+  background-color: var(--button-hover-bg);
+}
+
+.menu button:active,
+.menu button.active {
+  background-color: var(--button-active-bg);
+  border-color: var(--text-color);
+}
+
+/* Toolbar Styles */
+.toolbar, .extended-toolbar {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  background-color: var(--toolbar-bg);
+  border-bottom: 1px solid var(--toolbar-border);
+  padding: 8px 15px;
+  gap: 10px; /* Spacing between sections */
+  justify-content: flex-start;
+  z-index: 90;
+  position: sticky;
+  top: 0; /* Make toolbars sticky */
+  left: 0;
+  right: 0;
+}
+
+.toolbar-section {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px;
+  border-right: 1px solid var(--toolbar-border); /* Separator between sections */
+}
+
+.toolbar-section:last-child {
+  border-right: none;
+}
+
+.toolbar-section button,
+.toolbar-section select,
+.toolbar-section input[type="color"] {
+  background-color: var(--button-bg);
+  color: var(--text-color);
+  border: 1px solid var(--toolbar-border);
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  font-size: 0.9em;
+  min-width: 30px; /* Ensure buttons have minimum size */
+  text-align: center;
+}
+
+.toolbar-section button:hover,
+.toolbar-section select:hover,
+.toolbar-section input[type="color"]::-webkit-color-swatch-wrapper:hover {
+  background-color: var(--button-hover-bg);
+}
+
+.toolbar-section button:active,
+.toolbar-section button.active {
+  background-color: var(--button-active-bg);
+  border-color: var(--text-color);
+}
+
+.toolbar-section select {
+  padding-right: 25px; /* Space for dropdown arrow */
+}
+
+.color-picker {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.color-picker input[type="color"] {
+  -webkit-appearance: none;
+  border: none;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  background: none;
+}
+
+.color-picker input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.color-picker input[type="color"]::-webkit-color-swatch {
+  border: 1px solid var(--toolbar-border);
+  border-radius: 3px;
+}
+
+/* Document Container & Pages */
+.document-container {
+  flex-grow: 1;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align pages to the top */
+  background-color: var(--background-color);
+  overflow-y: auto; /* Enable scrolling for the document view */
+}
+
+#page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px; /* Space between pages */
+  padding: 20px 0; /* Padding for pages within the container */
+  transform-origin: top center; /* For zooming */
+  transition: transform 0.2s ease-out; /* Smooth zoom transition */
+  width: 100%; /* Default to full width to allow for scaling */
+}
+
+.page {
+  background-color: var(--page-bg);
+  width: 21cm; /* A4 width */
+  min-height: 29.7cm; /* A4 height */
+  box-shadow: 0 0 8px var(--page-shadow);
+  border-radius: 4px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 30mm 20mm; /* A4 margins (top/bottom, left/right) */
+  box-sizing: border-box; /* Include padding in width/height */
+  word-wrap: break-word; /* Prevent content overflow */
+  overflow: hidden; /* Hide internal scrollbars, relying on page overflow logic */
+}
+
+.header, .footer {
+  text-align: center;
+  padding: 5px 0;
+  font-size: 0.8em;
+  color: #666;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
+  min-height: 20px; /* Ensure they take up space */
+  box-sizing: border-box;
+}
+
+.footer {
+  border-top: 1px solid #eee;
+  border-bottom: none;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.header[contenteditable="true"]:empty::before,
+.footer[contenteditable="true"]:empty::before,
+.editor[contenteditable="true"]:empty::before {
+  content: attr(data-placeholder);
+  color: var(--placeholder-color);
+  pointer-events: none; /* Allows click through to the actual contenteditable */
+  display: block; /* Ensures it takes up space for centering */
+}
+
+.header.empty, .footer.empty, .editor.empty {
+    /* Style for when empty and placeholder is visible */
+    color: var(--placeholder-color); /* Ensure placeholder color is visible */
+    font-style: italic; /* Make placeholder text italic */
+}
+
+
+.content-area {
+  flex-grow: 1; /* Allows editor to take up remaining space */
+  display: flex;
+  flex-direction: column;
+  min-height: 200px; /* Minimum height for content area */
+}
+
+.editor {
+  min-height: calc(29.7cm - 60mm - 40mm - 40px); /* Approx. remaining height for A4 after header/footer/padding */
+  flex-grow: 1;
+  outline: none;
+  line-height: 1.5;
+  color: var(--text-color); /* Ensure editor text color changes with theme */
+  box-sizing: border-box;
+  padding-bottom: 10px; /* Small padding at bottom to prevent cursor hiding */
+}
+
+/* Page Number */
+.page-number {
+  position: absolute;
+  bottom: 10mm;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.8em;
+  color: #888;
+}
+
+/* Status Bar */
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 20px;
+  background-color: var(--status-bar-bg);
+  border-top: 1px solid var(--toolbar-border);
+  font-size: 0.9em;
+  color: var(--text-color);
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.status-bar select {
+  background-color: var(--button-bg);
+  color: var(--text-color);
+  border: 1px solid var(--toolbar-border);
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+/* Panels (Find/Replace, Special Chars, Word Count, Table, Link) */
+.panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 1000;
+  min-width: 300px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.panel-content h3 {
+  margin-top: 0;
+  color: var(--text-color);
+}
+
+.panel .input-group {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.panel .input-group label {
+  min-width: 80px;
+  color: var(--text-color);
+}
+
+.panel .input-group input[type="text"],
+.panel .input-group input[type="number"] {
+  flex-grow: 1;
+  padding: 8px;
+  border: 1px solid var(--toolbar-border);
+  border-radius: 4px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.panel button {
+  background-color: var(--button-bg);
+  color: var(--text-color);
+  border: 1px solid var(--toolbar-border);
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 5px;
+  transition: background-color 0.2s;
+}
+
+.panel button:hover {
+  background-color: var(--button-hover-bg);
+}
+
+.panel .close-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  margin-top: 15px;
+}
+
+.panel .close-btn:hover {
+  background-color: #d32f2f;
+}
+
+.panel .options {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  color: var(--text-color);
+}
+
+.panel .options label {
+  margin-right: 15px;
+}
+
+.special-chars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(35px, 1fr));
+  gap: 5px;
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 5px;
+  border: 1px solid var(--toolbar-border);
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.special-chars-grid button {
+  padding: 5px;
+  font-size: 1.1em;
+  line-height: 1;
+}
+
+/* Toast Notifications */
+#toast {
+  visibility: hidden;
+  min-width: 250px;
+  background-color: var(--toast-bg);
+  color: var(--toast-text);
+  text-align: center;
+  border-radius: 6px;
+  padding: 10px;
+  position: fixed;
+  z-index: 1001;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 30px;
+  opacity: 0;
+  transition: opacity 0.5s, visibility 0.5s;
+}
+
+#toast.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Context Menu */
+.context-menu {
+  display: none;
+  position: absolute;
+  background-color: var(--context-menu-bg);
+  border: 1px solid var(--context-menu-border);
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  z-index: 1000;
+  min-width: 150px;
+  padding: 5px 0;
+}
+
+.context-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.context-menu li {
+  padding: 8px 15px;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+.context-menu li:hover {
+  background-color: var(--context-menu-hover-bg);
+}
+
+.context-menu .divider {
+  height: 1px;
+  background-color: var(--context-menu-border);
+  margin: 5px 0;
+}
+
+/* Active Button State for Toolbar */
+.toolbar-section button.active {
+  background-color: var(--button-active-bg);
+  border-color: var(--text-color);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Comments (Basic styling for now) */
+.comment-highlight {
+  background-color: rgba(255, 255, 0, 0.5); /* Semi-transparent yellow */
+  cursor: help;
+  border-bottom: 1px dotted rgba(200, 200, 0, 0.7); /* Dotted underline */
+  transition: background-color 0.2s;
+}
+
+.comment-highlight:hover {
+  background-color: rgba(255, 255, 0, 0.8); /* More opaque on hover */
+}
+
+/* Reading Mode */
+body.reading-mode .toolbar,
+body.reading-mode .extended-toolbar,
+body.reading-mode .status-bar,
+body.reading-mode .menu,
+body.reading-mode .top-bar .app-title {
+  display: none; /* Hide UI elements */
+}
+
+body.reading-mode .document-container {
+  padding: 0; /* Remove container padding */
+  align-items: center; /* Center pages */
+}
+
+body.reading-mode .page {
+  box-shadow: none; /* No shadows in reading mode */
+  border-radius: 0;
+  margin: 0 auto; /* Center individual pages */
+  padding: 20mm 30mm; /* Adjust margins for a more book-like feel */
+  max-width: 800px; /* Optional: Limit reading width */
+}
+
+body.reading-mode .editor,
+body.reading-mode .header,
+body.reading-mode .footer {
+  pointer-events: none; /* Disable editing */
+  cursor: default;
+}
+
+
+/* Print Mode */
+@media print {
+  body {
+    background-color: #fff;
+    color: #000;
+  }
+  .top-bar, .toolbar, .extended-toolbar, .status-bar, #toast, #contextMenu, .panel {
+    display: none !important; /* Hide all UI elements during print */
+  }
+  .document-container {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+  }
+  #page-container {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    transform: none !important; /* Disable zoom transform */
+    display: block; /* Allow pages to stack normally */
+    gap: 0;
+  }
+  .page {
+    width: 210mm; /* A4 width */
+    height: 297mm; /* A4 height */
+    box-shadow: none;
+    border-radius: 0;
+    page-break-after: always; /* Ensure each page prints on a new sheet */
+    margin: 0; /* No margin between pages for printing */
+    padding: 25.4mm; /* Standard 1 inch margins */
+    box-sizing: border-box;
+    overflow: hidden; /* Prevent content from breaking outside the page */
+    display: block;
+  }
+  .page:last-child {
+    page-break-after: avoid; /* No page break after the last page */
+  }
+  .header, .footer {
+    display: block !important; /* Ensure header/footer visible in print if toggled off */
+    color: #000;
+    border: none;
+  }
+  .editor {
+    min-height: auto; /* Allow content to flow naturally */
+  }
+  .page-number {
+    display: block !important; /* Ensure page numbers are visible */
+  }
+  /* Ensure images scale correctly in print */
+  .editor img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}
+
+/* Mobile Responsiveness (Simple Collapse Example) */
+body.mobile-layout .toolbar-section {
+  flex-direction: column;
+  align-items: flex-start;
+  border-right: none;
+  border-bottom: 1px solid var(--toolbar-border);
+  padding: 8px;
+}
+
+body.mobile-layout .toolbar-section.collapsed {
+  max-height: 40px; /* Adjust as needed */
+  overflow: hidden;
+  cursor: pointer;
+  justify-content: center;
+}
+
+body.mobile-layout .toolbar-section.collapsed::after {
+  content: '▼'; /* Down arrow for collapsed */
+  position: absolute;
+  right: 15px;
+  color: var(--text-color);
+  font-size: 0.8em;
+}
+
+body.mobile-layout .toolbar-section:not(.collapsed)::after {
+  content: '▲'; /* Up arrow for expanded */
+  position: absolute;
+  right: 15px;
+  color: var(--text-color);
+  font-size: 0.8em;
+}
+
+body.mobile-layout .toolbar-section button,
+body.mobile-layout .toolbar-section select,
+body.mobile-layout .toolbar-section input[type="color"],
+body.mobile-layout .toolbar-section .color-picker span {
+  width: 100%; /* Full width for controls in collapsed sections */
+  margin-bottom: 5px;
+}
+
+body.mobile-layout .toolbar-section label {
+    margin-right: 0;
+    width: 100%;
+}
